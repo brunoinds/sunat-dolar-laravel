@@ -1,6 +1,7 @@
 {
     "name": "brunoinds/sunat-dolar-laravel",
-    "type": "project",
+    "minimum-stability": "stable",
+    "prefer-stable": true, 
     "license": "MIT",
     "authors": [
         {
@@ -8,7 +9,6 @@
             "email": "brunoqm99@gmail.com"
         }
     ],
-    "minimum-stability": "dev",
     "autoload": {
         "psr-4": {
             "Brunoinds\\SunatDolarLaravel\\": "src/"
