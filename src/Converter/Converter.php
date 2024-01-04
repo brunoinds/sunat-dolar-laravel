@@ -65,6 +65,11 @@ class Converter{
         if (json_last_error() !== JSON_ERROR_NONE) {
             throw new \Exception('Invalid JSON response: ' . json_last_error_msg());
         }
+
+        if (!isset($results->compra)){
+            return self::fetchAPI(new DateTime());
+        }
+
         $results = [
             'price' => [
                 'buy' => $results->compra,
