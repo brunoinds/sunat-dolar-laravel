@@ -4,6 +4,7 @@ namespace Brunoinds\SunatDolarLaravel\Converter;
 
 use Illuminate\Support\Facades\Cache;
 use DateTime;
+use Carbon\Carbon;
 
 
 class Converter{
@@ -30,6 +31,11 @@ class Converter{
         return $result;
     }
     private static function fetchAPI(DateTime $date){
+        if ($date->format('Y-m-d') > Carbon::now()->timezone('America/Lima')->format('Y-m-d')){
+            $date = Carbon::now()->timezone('America/Lima')->toDateTime();
+        }
+
+
         $dateString = $date->format('Y-m-d');
 
         $cachedValue = Cache::store('file')->get('Brunoinds/SunatDolarLaravelStore');
@@ -62,12 +68,16 @@ class Converter{
         curl_close($curl);
         $results = json_decode($response);
 
+
         if (json_last_error() !== JSON_ERROR_NONE) {
-            throw new \Exception('Invalid JSON response: ' . json_last_error_msg());
+            if (str_contains($response, 'Not Found')){
+                return self::fetchAPI(Carbon::now()->timezone('America/Lima')->toDateTime());
+            }
+            throw new \Exception('Invalid JSON response: "' . json_last_error_msg(). '". The API response was: ' . $response);
         }
 
         if (!isset($results->compra)){
-            return self::fetchAPI(new DateTime());
+            return self::fetchAPI(Carbon::now()->timezone('America/Lima')->toDateTime());
         }
 
         $results = [
