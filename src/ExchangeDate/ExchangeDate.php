@@ -6,11 +6,17 @@ use Brunoinds\SunatDolarLaravel\Converter\Converter;
 use Brunoinds\SunatDolarLaravel\Enums\Currency;
 use Brunoinds\SunatDolarLaravel\ExchangeTransaction\ExchangeTransaction;
 use DateTime;
+use Brunoinds\SunatDolarLaravel\Store\Store;
+
 
 class ExchangeDate{
     public DateTime $date;
 
     public function __construct(DateTime $date){
+        if (!Converter::$store){
+            Converter::$store = Store::newFromLaravelCache();
+        }
+        
         $this->date = $date;
     }
 

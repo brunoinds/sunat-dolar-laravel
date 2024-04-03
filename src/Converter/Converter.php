@@ -5,9 +5,12 @@ namespace Brunoinds\SunatDolarLaravel\Converter;
 use Illuminate\Support\Facades\Cache;
 use DateTime;
 use Carbon\Carbon;
+use Brunoinds\SunatDolarLaravel\Store\Store;
 
 
 class Converter{
+    public static Store|null $store = null;
+
     public static function getDailyDollarExchangeRate(DateTime $date){
         $response = self::fetchMAPI($date);
         return $response;
@@ -38,7 +41,7 @@ class Converter{
 
         $dateString = $date->format('Y-m-d');
 
-        $cachedValue = Cache::store('file')->get('Brunoinds/SunatDolarLaravelStore');
+        $cachedValue = Converter::$store->get();
 
         if ($cachedValue){
             $stores = json_decode($cachedValue, true);
@@ -91,7 +94,7 @@ class Converter{
         $results = json_decode(json_encode($results));
 
         $stores[$dateString] = json_encode($results);
-        Cache::store('file')->put('Brunoinds/SunatDolarLaravelStore', json_encode($stores));
+        Converter::$store->set(json_encode($stores));
         
         return $results;
     }
@@ -105,7 +108,7 @@ class Converter{
         $monthString = $date->format('m');
         $yearString = $date->format('Y');
 
-        $cachedValue = Cache::store('file')->get('Brunoinds/SunatDolarLaravelStore');
+        $cachedValue = Converter::$store->get();
 
         if ($cachedValue){
             $stores = json_decode($cachedValue, true);
@@ -173,11 +176,10 @@ class Converter{
             $stores[$date] = json_encode($result);
         }
 
-        Cache::store('file')->put('Brunoinds/SunatDolarLaravelStore', json_encode($stores));
+        Converter::$store->set(json_encode($stores));
         
 
         $result = json_decode(json_encode($result));
         return $result;
     }
-
 }
