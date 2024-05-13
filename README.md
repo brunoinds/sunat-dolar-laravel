@@ -2,6 +2,13 @@
 
 A simple PHP library for exchanging currencies based on Peruvian SUNAT exchange rates.
 
+<p align="center">
+<a href="https://packagist.org/packages/brunoinds/sunat-dolar-laravel"><img src="https://img.shields.io/packagist/dt/brunoinds/sunat-dolar-laravel" alt="Total Downloads"></a>
+<a href="https://packagist.org/packages/brunoinds/sunat-dolar-laravel"><img src="https://img.shields.io/packagist/v/brunoinds/sunat-dolar-laravel" alt="Latest Stable Version"></a>
+<a href="https://packagist.org/packages/brunoinds/sunat-dolar-laravel"><img src="https://img.shields.io/packagist/l/brunoinds/sunat-dolar-laravel" alt="License"></a>
+</p>
+
+
 ## Installation
 
 Install via Composer:
